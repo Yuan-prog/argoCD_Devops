@@ -1,1 +1,6 @@
-FROM nginx:alpine\nCOPY apps/nginx/index.html /usr/share/nginx/html
+FROM nginx:alpine as builder
+COPY apps/nginx/index.html /usr/share/nginx/html
+
+FROM nginx:alpine
+COPY --from=builder /usr/share/nginx/html /usr/share/nginx/html
+

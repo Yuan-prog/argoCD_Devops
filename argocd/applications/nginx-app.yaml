@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nginx-app
+  namespace: argocd
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: nginx=docker.io/aotoriii/my-app
+    argocd-image-updater.argoproj.io/nginx.update-strategy: latest
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/Yuan-prog/argoCD_Devops.git
+    targetRevision: main
+    path: k8s/my-app
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+
